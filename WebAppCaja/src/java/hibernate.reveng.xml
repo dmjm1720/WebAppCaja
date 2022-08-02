@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="DBCAJA" match-schema="dbo"/>
+  <table-filter match-name="USUARIO"/>
+  <table-filter match-name="AUTOS"/>
+  <table-filter match-name="CONCEPTO"/>
+  <table-filter match-name="POLIZA"/>
+  <table-filter match-name="GASTO"/>
+  <table-filter match-name="TIPOS"/>
+</hibernate-reverse-engineering>

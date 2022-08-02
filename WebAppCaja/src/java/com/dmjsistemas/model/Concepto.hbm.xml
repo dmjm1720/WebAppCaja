@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/07/2022 10:51:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjsistemas.model.Concepto" table="CONCEPTO" schema="dbo" catalog="DBCAJA" optimistic-lock="version">
+        <id name="idconcepto" type="int">
+            <column name="IDCONCEPTO" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="gasto" class="com.dmjsistemas.model.Gasto" fetch="select">
+            <column name="IDGASTO" />
+        </many-to-one>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="dato" type="string">
+            <column name="DATO" length="50" />
+        </property>
+        <property name="de" type="string">
+            <column name="DE" length="5" />
+        </property>
+        <property name="descricpion" type="string">
+            <column name="DESCRICPION" length="250" />
+        </property>
+        <property name="importe" type="java.lang.Integer">
+            <column name="IMPORTE" />
+        </property>
+    </class>
+</hibernate-mapping>

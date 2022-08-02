@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>GASTOS</h:head>
+    <body>
+        <ui:composition template="../Template/Template.xhtml">
+            <ui:define name="content">
+
+                <h:form id="frmPrincipal">
+                    <p:growl id="msgs" showDetail="true"
+                             skipDetailIfEqualsSummary="true" />
+
+                    <div class="card">
+                        <p:fieldset legend="MÓDULO GASTOS | AGREGAR / EDITAR " 
+                                    toggleable="true" 
+                                    toggleSpeed="500" 
+                                    styleClass="tabla"
+                                    style="background-color: #EAECEE; color: #154360;">
+                            <h:panelGrid  columns="3" cellpadding="1">
+                                <p:outputLabel
+                                    value="#{gastos.gasto.idgasto}"
+                                    style="color: #EAECEE" />
+
+                                <p:outputLabel for="nombre" value="NOMBRE VEHÍCULO" styleClass="tabla" />
+                                <p:selectOneMenu id="nombre" value="#{gastos.nombreVehiculo}">
+                                    <f:selectItem itemLabel="Selecciona" itemValue=""/>
+                                    <f:selectItems value="#{gastos.listaAutos}"/>
+                                </p:selectOneMenu>
+                                <p:message for="nombre" />
+
+                                <p:outputLabel for="tipo" value="TIPO DE GASTO" styleClass="tabla" />
+                                <p:selectOneMenu id="tipo" value="#{gastos.tipoGastos}">
+                                    <f:selectItem itemLabel="Selecciona" itemValue=""/>
+                                    <f:selectItems value="#{gastos.listaTipo}"/>
+                                </p:selectOneMenu>
+                                <p:message for="tipo" />
+
+                                <p:outputLabel for="departamento" value="DEPARTAMENTO" styleClass="tabla input"/>
+                                <p:inputText id="departamento"
+                                             value="#{gastos.gasto.departamento}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input"/>
+                                <p:message for="departamento" />
+
+                                <p:outputLabel for="fecha" value="FECHA" styleClass="tabla input"/>
+                                <p:calendar id="fecha" value="#{gastos.gasto.fechaCaptura}" />
+                                <p:message for="fecha" />
+
+
+                                <p:commandButton icon="pi pi-save" value="Guardar" title="Guardar"
+                                                 rendered="#{gastos.gasto.idgasto.toString()=='0'}"
+                                                 update="frmPrincipal, msgs" styleClass="tabla"
+                                                 actionListener="#{gastos.guardar()}"
+                                                 />
+
+                                <p:commandButton icon="pi pi-replay" value="Actualizar" title="Actualizar"
+                                                 rendered="#{gastos.gasto.idgasto.toString()!='0'}"
+                                                 actionListener="#{gastos.actualizar()}"
+                                                 update="messages, frmPrincipal" styleClass="tabla" />
+
+                                <p:commandButton icon="pi pi-times" value="Cancelar" title="Cancelar" styleClass="tabla"
+                                                 rendered="#{gastos.gasto.idgasto.toString()!='0'}"
+                                                 onclick="location.reload()"/>
+                                <p:growl id="messages" showDetail="true" keepAlive="true" />
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                        <br></br>
+
+                        <p:fieldset legend="USUARIOS " toggleable="true" toggleSpeed="500" styleClass="tabla">
+
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:dataTable id="tblPrincipal" 
+                                             styleClass="tabla"
+                                             paginator="true" rows="10"
+                                             style="font-size: 12px;" sortMode="multiple"
+                                             paginatorPosition="top" var="item" scrollable="true"
+                                             scrollHeight="435"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,50,100,200,500" reflow="true"
+                                             onRowClick="" rowHover="true" resizeMode="fit"
+                                             value="#{gastos.lista}">
+                                    <p:ajax event="sort" skipChildren="false" />
+                                    <p:column  headerText="ID" width="20px">
+                                        <h:outputText value="#{item.idgasto}" />
+                                    </p:column>
+                                    <p:column filterBy="#{item.usuario.nombre}" headerText="NOMBRE SOLICITANTE">
+                                        <h:outputText value="#{item.usuario.nombre}" />
+                                    </p:column>
+                                    <p:column  headerText="NOMBRE VEHÍCULO">
+                                        <h:outputText value="#{item.autos.nombreVehiculo}" />
+                                    </p:column>
+                                    <p:column  headerText="DEPARTAMENTO">
+                                        <h:outputText value="#{item.departamento}" />
+                                    </p:column>
+                                    <p:column  headerText="FECHA DE CAPTURA">
+                                        <h:outputText value="#{item.fechaCaptura}" />
+                                    </p:column>
+                                    <p:column  headerText="TIPO DE GASTO">
+                                        <h:outputText value="$ #{item.tipos.tipoGasto}" />
+                                    </p:column>
+                                    <p:column headerText="ACCIONES">
+                                        <p:commandButton id="btn" value="Editar" icon="pi pi-pencil" title="Actualizar"
+                                                         update="frmPrincipal" styleClass="tabla">
+                                            <f:setPropertyActionListener value="#{item}"
+                                                                         target="#{gastos.gasto}" />
+
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                    </div>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

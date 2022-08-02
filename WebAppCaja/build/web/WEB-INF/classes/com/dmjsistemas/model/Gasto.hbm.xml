@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/07/2022 10:51:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjsistemas.model.Gasto" table="GASTO" schema="dbo" catalog="DBCAJA" optimistic-lock="version">
+        <id name="idgasto" type="int">
+            <column name="IDGASTO" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="autos" class="com.dmjsistemas.model.Autos" fetch="select">
+            <column name="IDAUTO" />
+        </many-to-one>
+        <many-to-one name="tipos" class="com.dmjsistemas.model.Tipos" fetch="select">
+            <column name="IDTIPO" />
+        </many-to-one>
+        <many-to-one name="usuario" class="com.dmjsistemas.model.Usuario" fetch="select">
+            <column name="IDUSUARIO" />
+        </many-to-one>
+        <property name="departamento" type="string">
+            <column name="DEPARTAMENTO" length="25" />
+        </property>
+        <property name="fechaCaptura" type="date">
+            <column name="FECHA_CAPTURA" length="10" />
+        </property>
+        <property name="estado" type="string">
+            <column name="ESTADO" length="20" />
+        </property>
+        <set name="conceptos" table="CONCEPTO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="IDGASTO" />
+            </key>
+            <one-to-many class="com.dmjsistemas.model.Concepto" />
+        </set>
+    </class>
+</hibernate-mapping>

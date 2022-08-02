@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>AUTOS</h:head>
+    <body>
+        <ui:composition template="../Template/Template.xhtml">
+            <ui:define name="content">
+
+                <h:form id="frmPrincipal">
+                    <p:growl id="msgs" showDetail="true"
+                             skipDetailIfEqualsSummary="true" />
+
+                    <div class="card">
+                        <p:fieldset legend="MÓDULO AUTOS | AGREGAR / EDITAR " 
+                                    toggleable="true" 
+                                    toggleSpeed="500" 
+                                    styleClass="tabla"
+                                    style="background-color: #EAECEE; color: #154360;">
+                            <h:panelGrid  columns="6" cellpadding="1">
+                                <p:outputLabel
+                                    value="#{autos.autos.idauto}"
+                                    style="color: #EAECEE" />
+
+                                <p:outputLabel for="nombre" value="NOMBRE VEHÍCULO" styleClass="tabla" />
+                                <p:inputText id="nombre"
+                                             value="#{autos.autos.nombreVehiculo}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input" />
+                                <p:message for="nombre" />
+
+                                <p:outputLabel for="serie" value="NO. SERIE" styleClass="tabla input"/>
+                                <p:inputText id="serie"
+                                             value="#{autos.autos.noSerie}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input" />
+                                <p:message for="serie" />
+
+                                <p:outputLabel for="año" value="AÑO" styleClass="tabla input" />
+                                 <p:inputNumber id="año" value="#{autos.autos.anio}" minValue="-10000"
+                                maxValue="10000" decimalPlaces="0"  requiredMessage="Campo requerido" styleClass="tabla input" />
+
+                                <p:message for="año" />
+                                
+                                <p:outputLabel for="placas" value="NO. PLACAS" styleClass="tabla input" />
+                                <p:inputText id="placas"
+                                             value="#{autos.autos.noPlacas}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input" />
+                                <p:message for="placas" />
+
+                                <p:outputLabel for="valor" value="VALOR AUTO" styleClass="tabla input"/>
+                                <p:inputNumber id="valor" value="#{autos.autos.valor}" symbol=" $"
+                                symbolPosition="s" decimalSeparator="." thousandSeparator="," styleClass="tabla input"/>
+                                <p:message for="valor" />
+
+                                <p:outputLabel for="deducible" value="DEDUCIBLE" styleClass="tabla input"/>
+                                <p:inputText id="deducible"
+                                             value="#{autos.autos.deducible}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input"/>
+                                <p:message for="deducible" />
+
+                                <p:outputLabel for="porcentaje" value="PORCENTAJE DEDUCIBLE" styleClass="tabla input"/>
+                                <p:inputNumber id="porcentaje" value="#{autos.autos.porcentajeDeducible}" symbol="%"
+                                               symbolPosition="s" emptyValue="always" decimalPlaces="0" styleClass="tabla input" modifyValueOnWheel="true"/>
+                                <p:message for="porcentaje" />
+
+                                <p:outputLabel for="nodeducible" value="NO DEDUCIBLE" styleClass="tabla input"/>
+                                <p:inputText id="nodeducible"
+                                             value="#{autos.autos.noDeducible}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input"/>
+                                <p:message for="nodeducible" />
+
+                                <p:outputLabel for="noporcentaje" value="PORCENTAJE NO DEDUCIBLE" styleClass="tabla input"/>
+                                <p:inputNumber id="noporcentaje" value="#{autos.autos.porcentajeNoDeducible}" symbol="%"
+                                symbolPosition="s" emptyValue="always" decimalPlaces="0" styleClass="tabla input" modifyValueOnWheel="true"/>
+                                <p:message for="noporcentaje" />
+
+                                <p:outputLabel for="departamento" value="DEPARTAMENTO" styleClass="tabla input"/>
+                                <p:inputText id="departamento"
+                                             value="#{autos.autos.departamento}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input"/>
+                                <p:message for="departamento" />
+
+
+                                <p:commandButton icon="pi pi-save" value="Guardar" title="Guardar"
+                                                 rendered="#{autos.autos.idauto.toString()=='0'}"
+                                                 update="frmPrincipal, msgs" styleClass="tabla"
+                                                 actionListener="#{autos.guardar()}"
+                                                 />
+
+                                <p:commandButton icon="pi pi-replay" value="Actualizar" title="Actualizar"
+                                                 rendered="#{autos.autos.idauto.toString()!='0'}"
+                                                 actionListener="#{autos.actualizar()}"
+                                                 update="messages, frmPrincipal" styleClass="tabla" />
+
+                                <p:commandButton icon="pi pi-times" value="Cancelar" title="Cancelar" styleClass="tabla"
+                                                 rendered="#{autos.autos.idauto.toString()!='0'}"
+                                                 onclick="location.reload()"/>
+                                <p:growl id="messages" showDetail="true" keepAlive="true" />
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                        <br></br>
+
+                        <p:fieldset legend="USUARIOS " toggleable="true" toggleSpeed="500" styleClass="tabla">
+
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:dataTable id="tblPrincipal" 
+                                             styleClass="tabla"
+                                             paginator="true" rows="10"
+                                             style="font-size: 12px;" sortMode="multiple"
+                                             paginatorPosition="top" var="item" scrollable="true"
+                                             scrollHeight="435"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,50,100,200,500" reflow="true"
+                                             onRowClick="" rowHover="true" resizeMode="fit"
+                                             value="#{autos.lista}">
+                                    <p:ajax event="sort" skipChildren="false" />
+                                    <p:column  headerText="ID" width="20px">
+                                        <h:outputText value="#{item.idauto}" />
+                                    </p:column>
+                                    <p:column filterBy="#{item.nombreVehiculo}" headerText="NOMBRE VEHÍCULO">
+                                        <h:outputText value="#{item.nombreVehiculo}" />
+                                    </p:column>
+                                    <p:column  headerText="NO. SERIE">
+                                        <h:outputText value="#{item.noSerie}" />
+                                    </p:column>
+                                    <p:column  headerText="AÑO" width="20px">
+                                        <h:outputText value="#{item.anio}" />
+                                    </p:column>
+                                    <p:column  headerText="NO. PLACAS">
+                                        <h:outputText value="#{item.noPlacas}" />
+                                    </p:column>
+                                    <p:column  headerText="VALOR">
+                                        <h:outputText value="$ #{item.valor}" />
+                                    </p:column>
+                                    <p:column  headerText="DEDUCIBLE">
+                                        <h:outputText value="$ #{item.deducible}" />
+                                    </p:column>
+                                    <p:column  headerText="PORCENTAJE DEDUCIBLE">
+                                        <h:outputText value="#{item.porcentajeDeducible} %" />
+                                    </p:column>
+                                    <p:column  headerText="NO DEDUCIBLE">
+                                        <h:outputText value="$ #{item.noDeducible}" />
+                                    </p:column>
+                                    <p:column  headerText="PORCENTAJE NO DEDUCIBLE">
+                                        <h:outputText value="#{item.porcentajeNoDeducible} %" />
+                                    </p:column>
+                                    <p:column  headerText="DEPARTAMENTO">
+                                        <h:outputText value="#{item.departamento}" />
+                                    </p:column>
+
+                                    <p:column headerText="ACCIONES">
+                                        <p:commandButton id="btn" value="Editar" icon="pi pi-pencil" title="Actualizar"
+                                                         update="frmPrincipal" styleClass="tabla">
+                                            <f:setPropertyActionListener value="#{item}"
+                                                                         target="#{autos.autos}" />
+
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                    </div>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

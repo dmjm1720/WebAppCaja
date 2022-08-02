@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>USUARIOS</h:head>
+    <body>
+        <ui:composition template="../Template/Template.xhtml">
+            <ui:define name="content">
+
+                <h:form id="frmPrincipal">
+                    <p:growl id="msgs" showDetail="true"
+                             skipDetailIfEqualsSummary="true" />
+
+                    <div class="card">
+                        <p:fieldset legend="MÓDULO USUARIOS | AGREGAR / EDITAR " 
+                                    toggleable="true" 
+                                    toggleSpeed="500" 
+                                    styleClass="tabla"
+                                    style="background-color: #EAECEE; color: #154360;">
+                            <h:panelGrid  columns="3" cellpadding="1">
+                                <p:outputLabel
+                                    value="#{usuario.usuario.idusuario}"
+                                    style="color: #EAECEE" />
+
+                                <p:outputLabel for="nombre" value="NOMBRE" styleClass="tabla" />
+                                <p:inputText id="nombre"
+                                             value="#{usuario.usuario.nombre}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input" />
+                                <p:message for="nombre" />
+
+                                <p:outputLabel for="correo" value="CORREO" styleClass="tabla input"/>
+                                <p:inputText id="correo"
+                                             value="#{usuario.usuario.correo}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input" />
+                                <p:message for="correo" />
+
+                                <p:outputLabel for="clave" value="CONTRASEÑA" styleClass="tabla input" />
+                                <p:inputText id="clave"
+                                             value="#{usuario.usuario.clave}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input" />
+                                <p:message for="clave" />
+
+                                <p:outputLabel for="perfil" value="PERFIL" styleClass="tabla input" />
+                                <p:selectOneMenu id="perfil" value="#{usuario.usuario.perfil}">
+                                    <f:selectItem itemLabel="Selecciona perfil" itemValue="Selecciona"/>
+                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador"/>
+                                    <f:selectItem itemLabel="Usuario" itemValue="Usuario"/>
+                                </p:selectOneMenu>
+                                 <p:message for="perfil" />
+
+                                <p:outputLabel for="sap" value="CLAVE SAP" styleClass="tabla input"/>
+                                <p:inputText id="sap"
+                                             value="#{usuario.usuario.claveSap}" required="false"
+                                             requiredMessage="Campo requerido" styleClass="tabla input"/>
+                                <p:message for="sap" />
+
+                                <p:commandButton icon="pi pi-save" value="Guardar" title="Guardar"
+                                                 rendered="#{usuario.usuario.idusuario.toString()=='0'}"
+                                                 update="frmPrincipal, msgs" styleClass="tabla"
+                                                 actionListener="#{usuario.guardar()}"
+                                                 />
+
+                                <p:commandButton icon="pi pi-replay" value="Actualizar" title="Actualizar"
+                                                 rendered="#{usuario.usuario.idusuario.toString()!='0'}"
+                                                 actionListener="#{usuario.actualizar()}"
+                                                 update="messages, frmPrincipal" styleClass="tabla" />
+
+                                <p:commandButton icon="pi pi-times" value="Cancelar" title="Cancelar" styleClass="tabla"
+                                                 rendered="#{usuario.usuario.idusuario.toString()!='0'}"
+                                                 onclick="location.reload()"/>
+                                <p:growl id="messages" showDetail="true" keepAlive="true" />
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                        <br></br>
+
+                        <p:fieldset legend="USUARIOS " toggleable="true" toggleSpeed="500" styleClass="tabla">
+
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:dataTable id="tblPrincipal" 
+                                             styleClass="tabla"
+                                             paginator="true" rows="10"
+                                             style="font-size: 12px;" sortMode="multiple"
+                                             paginatorPosition="top" var="item" scrollable="true"
+                                             scrollHeight="435"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,50,100,200,500" reflow="true"
+                                             onRowClick="" rowHover="true" resizeMode="fit"
+                                             value="#{usuario.lista}">
+                                    <p:ajax event="sort" skipChildren="false" />
+                                    <p:column  headerText="ID">
+                                        <h:outputText value="#{item.idusuario}" />
+                                    </p:column>
+                                    <p:column filterBy="#{item.nombre}" headerText="NOMBRE">
+                                        <h:outputText value="#{item.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="CORREO">
+                                        <h:outputText value="#{item.correo}" />
+                                    </p:column>
+                                    <p:column headerText="CLAVE">
+                                        <h:outputText value="#{item.clave}" />
+                                    </p:column>
+                                    <p:column headerText="PERFIL">
+                                        <h:outputText value="#{item.perfil}" />
+                                    </p:column>
+                                    <p:column headerText="CLAVE SAP">
+                                        <h:outputText value="#{item.claveSap}" />
+                                    </p:column>
+                                    <p:column headerText="ACCIONES">
+                                        <p:commandButton id="btn" value="Editar" icon="pi pi-pencil" title="Actualizar"
+                                                         update="frmPrincipal" styleClass="tabla">
+                                            <f:setPropertyActionListener value="#{item}"
+                                                                         target="#{usuario.usuario}" />
+
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                    </div>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

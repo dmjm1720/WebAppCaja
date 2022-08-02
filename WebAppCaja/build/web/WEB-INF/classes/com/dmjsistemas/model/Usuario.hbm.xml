@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/07/2022 10:51:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjsistemas.model.Usuario" table="USUARIO" schema="dbo" catalog="DBCAJA" optimistic-lock="version">
+        <id name="idusuario" type="int">
+            <column name="IDUSUARIO" />
+            <generator class="native" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="NOMBRE" length="100" />
+        </property>
+        <property name="correo" type="string">
+            <column name="CORREO" length="50" />
+        </property>
+        <property name="clave" type="string">
+            <column name="CLAVE" length="250" />
+        </property>
+        <property name="perfil" type="string">
+            <column name="PERFIL" length="25" />
+        </property>
+        <property name="claveSap" type="string">
+            <column name="CLAVE_SAP" length="10" />
+        </property>
+        <property name="folio" type="string">
+            <column name="FOLIO" length="10" />
+        </property>
+        <set name="gastos" table="GASTO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="IDUSUARIO" />
+            </key>
+            <one-to-many class="com.dmjsistemas.model.Gasto" />
+        </set>
+        <set name="polizas" table="POLIZA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="IDUSUARIO" />
+            </key>
+            <one-to-many class="com.dmjsistemas.model.Poliza" />
+        </set>
+    </class>
+</hibernate-mapping>
